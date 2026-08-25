@@ -2541,6 +2541,20 @@ class Settings(
             default = { FxNimbus.features.homepageAsNewTab.value().enabled },
         )
 
+    /** Indicates if the default Firefox homepage should be used instead of [customHomepageUrl]. */
+    var shouldUseDefaultHomepage by
+        booleanPreference(
+            key = appContext.getPreferenceKey(R.string.pref_key_default_homepage),
+            default = true,
+        )
+
+    /** The URL to use as the homepage when [shouldUseDefaultHomepage] is `false`. */
+    var customHomepageUrl by
+        stringPreference(
+            key = appContext.getPreferenceKey(R.string.pref_key_custom_homepage_url),
+            default = "",
+        )
+
     /** Whether the universal edge-to-edge wallpapers treatment is enabled. */
     var enableUniversalEdgeToEdgeWallpapers by
         booleanPreference(

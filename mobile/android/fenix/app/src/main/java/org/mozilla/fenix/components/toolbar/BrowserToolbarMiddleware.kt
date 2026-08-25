@@ -659,10 +659,26 @@ class BrowserToolbarMiddleware(
 
             is HomepageClicked -> {
                 if (settings.enableHomepageAsNewTab) {
-                    useCases.fenixBrowserUseCases.navigateToHomepage()
+                    if (!settings.shouldUseDefaultHomepage) {
+                        useCases.fenixBrowserUseCases.loadUrlOrSearch(
+                            searchTermOrURL = settings.customHomepageUrl,
+                            newTab = true,
+                            private = browsingModeManager.mode.isPrivate,
+                        )
+                    } else {
+                        useCases.fenixBrowserUseCases.navigateToHomepage()
+                    }
                 } else {
-                    val directions = BrowserFragmentDirections.actionGlobalHome()
-                    navController.navigate(directions)
+                    if (!settings.shouldUseDefaultHomepage) {
+                        useCases.fenixBrowserUseCases.loadUrlOrSearch(
+                            searchTermOrURL = settings.customHomepageUrl,
+                            newTab = false,
+                            private = browsingModeManager.mode.isPrivate,
+                        )
+                    } else {
+                        val directions = BrowserFragmentDirections.actionGlobalHome()
+                        navController.navigate(directions)
+                    }
                 }
                 next(action)
             }
@@ -926,7 +942,13 @@ class BrowserToolbarMiddleware(
     private fun buildProgressBar(progress: Int = 0) = ProgressBarConfig(progress)
 
     private fun openNewTab(browsingMode: BrowsingMode) {
-        if (settings.enableHomepageAsNewTab) {
+        if (!settings.shouldUseDefaultHomepage) {
+            useCases.fenixBrowserUseCases.loadUrlOrSearch(
+                searchTermOrURL = settings.customHomepageUrl,
+                newTab = true,
+                private = browsingMode.isPrivate,
+            )
+        } else if (settings.enableHomepageAsNewTab) {
             useCases.fenixBrowserUseCases.addNewHomepageTab(private = browsingMode.isPrivate)
         } else {
             val focusOnAddressBar = !settings.enableHomepageSearchBar && !settings.enableHomepageTrendingRecentSearch

@@ -1332,6 +1332,14 @@
     <!-- Content description (not visible, for screen readers etc.): Close tab button -->
     <string name="tab_manager_close_tabs">Close</string>
 
+    <!-- Homepage -->
+    <!-- Title of a preference category that allows a user to choose which homepage to use -->
+    <string name="preferences_set_homepage">Homepage</string>
+    <!-- Option to use the default Firefox homepage -->
+    <string name="preferences_default_homepage">Default homepage</string>
+    <!-- Option to use a custom URL as the homepage. Also used as the dialog title for entering the custom homepage URL -->
+    <string name="preferences_custom_homepage">Custom homepage</string>
+
     <!-- Opening screen -->
     <!-- Title of a preference that allows a user to choose what screen to show after opening the app -->
     <string name="preferences_opening_screen">Opening screen</string>

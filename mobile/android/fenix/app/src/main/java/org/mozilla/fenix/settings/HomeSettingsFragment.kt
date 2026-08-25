@@ -11,6 +11,7 @@ import androidx.core.content.edit
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.preference.CheckBoxPreference
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
@@ -155,6 +156,7 @@ class HomeSettingsFragment : PreferenceFragmentCompat(), SystemInsetsPaddedFragm
             }
         }
 
+        setupHomepagePreferences()
         setupOpeningScreenPreferences()
         setupWeatherPreference()
     }
@@ -185,6 +187,20 @@ class HomeSettingsFragment : PreferenceFragmentCompat(), SystemInsetsPaddedFragm
             fenixSettings.preferences.edit { putBoolean(preference.key, newBooleanValue) }
 
             true
+        }
+    }
+
+    private fun setupHomepagePreferences() {
+        val defaultHomepage =
+            requirePreference<RadioButtonPreference>(R.string.pref_key_default_homepage)
+        val customHomepage =
+            requirePreference<RadioButtonPreference>(R.string.pref_key_custom_homepage)
+
+        addToRadioGroup(defaultHomepage, customHomepage)
+
+        requirePreference<EditTextPreference>(R.string.pref_key_custom_homepage_url).apply {
+            text = fenixSettings.customHomepageUrl
+            onPreferenceChangeListener = StringSharedPreferenceUpdater()
         }
     }
 
